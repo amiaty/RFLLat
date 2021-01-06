@@ -1,4 +1,4 @@
-FLLat.PVE <- function(Y,J.seq=seq(1,min(25,floor(ncol(Y)/2)),by=2),
+FLLat.PVE <- function(Y,J.seq=seq(1,min(18,floor(ncol(Y)/2)),by=2),
                       B=c("pc","rand"),lams=c("same","diff"),thresh=10^(-4),
                       maxiter=100,maxiter.B=1,maxiter.T=1) {
 
