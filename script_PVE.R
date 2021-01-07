@@ -4,16 +4,31 @@
 ## Load data
 num_files <- length(list.files("./data/"))
 files_name <- list.files(path = "./data/")
+methods_name <- list("FLLat", "SFLLat", "RFLLat")
+empty_vec <- vector(mode="character", length=num_files * 3)
+opt_feat <- list(method = empty_vec,fname = empty_vec, opt_feat_num = numeric(num_files*3))
 for (i in 1:num_files)
 {
-  fname = unlist(strsplit(files_name[i], split='.', fixed=TRUE))[1]
+  fname = unlist(strsplit(files_name[i], split = '.', fixed = TRUE))[1]
   sim_data <- get(fname)
-  ## Generate PVEs for J ranging from 1 to the number of samples divided by 2.
-  result.pve <- FLLat.PVE(sim_data)
-  ## Generate PVE plot.
-  setEPS()
-  postscript(paste(fname, "eps", sep="."))
-  plot(result.pve)
-  dev.off()
+  for (k in 1:length(methods_name))
+  {
+    ## Generate PVEs for J ranging from 1 to the number of samples divided by 2.
+    if (methods_name[k] == "FLLat")
+      result.pve <- FLLat.PVE(sim_data, maxiter=10)
+    else if (methods_name[k] == "SFLLat")
+      result.pve <- SFLLat.PVE(sim_data, maxiter=10)
+    else if (methods_name[k] == "RFLLat")
+      result.pve <- RFLLat.PVE(sim_data, maxiter=10)
+
+    ## Find and save optimal J for later
+    opt_feat$opt_feat_num[i+(k-1)*num_files] = optimal_j_calculator(result.pve)
+    opt_feat$fname[i+(k-1)*num_files] = fname
+    opt_feat$method[i+(k-1)*num_files] = methods_name[k]
+    ## plot
+    setEPS()
+    postscript(paste(fname+"", "eps", sep = "."))
+    plot(result.pve)
+    dev.off()
+  }
 }
-#TODO Automatically select best J
