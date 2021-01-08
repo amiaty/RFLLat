@@ -17,9 +17,9 @@ for (i in 1:num_files)
     if (methods_name[k] == "FLLat")
       result.pve <- FLLat.PVE(sim_data, maxiter=10)
     else if (methods_name[k] == "SFLLat")
-      result.pve <- SFLLat.PVE(sim_data, maxiter=10)
+      result.pve <- FLLat.PVE(sim_data, maxiter=10)
     else if (methods_name[k] == "RFLLat")
-      result.pve <- RFLLat.PVE(sim_data, maxiter=10)
+      result.pve <- FLLat.PVE(sim_data, maxiter=10)
 
     ## Find and save optimal J for later
     opt_feat$opt_feat_num[i+(k-1)*num_files] = optimal_j_calculator(result.pve)
@@ -27,7 +27,7 @@ for (i in 1:num_files)
     opt_feat$method[i+(k-1)*num_files] = methods_name[k]
     ## plot
     setEPS()
-    postscript(paste(fname+"", "eps", sep = "."))
+    postscript(paste(paste(fname, methods_name[k], sep="_"), "eps", sep = "."))
     plot(result.pve)
     dev.off()
   }
