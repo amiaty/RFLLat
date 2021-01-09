@@ -6,4 +6,4 @@ tst.pred <- predict(result.tr,newY=tst.dat)
 plot(tst.dat[,1],xlab="Probe",ylab="Y")
 lines(tst.pred$pred.Y[,1],col="red",lwd=3)
 fllat=tst.pred$pred.Y
-writeMat(con="RFLLat.mat", x=fllat)
+writeMat(con="RFLLat.mat", x=fllat, encoding = "UTF-8")
