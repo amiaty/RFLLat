@@ -8,8 +8,10 @@ methods_name <- list("FLLat", "SFLLat", "RFLLat")
 empty_vec <- vector(mode="character", length=num_files * 3)
 opt_feat <- list(method = empty_vec,fname = empty_vec, opt_feat_num = numeric(num_files*3))
 num_of_methods <- length(methods_name)
+odd_val <- -3
 for (i in 1:num_files)
 {
+  odd_val <- odd_val+2
   fname = unlist(strsplit(files_name[i], split = '.', fixed = TRUE))[1]
   sim_data <- get(fname)
 
@@ -24,9 +26,9 @@ for (i in 1:num_files)
       result.pve <- FLLat.PVE(sim_data, maxiter=5)
 
     ## Find and save optimal J for later
-    opt_feat$opt_feat_num[i+(k-1)*num_of_methods] = optimal_j_calculator(result.pve)
-    opt_feat$fname[i+(k-1)*num_of_methods] = fname
-    opt_feat$method[i+(k-1)*num_of_methods] = methods_name[k]
+    opt_feat$opt_feat_num[i+k+odd_val] = optimal_j_calculator(result.pve)
+    opt_feat$fname[i+k+odd_val] = fname
+    opt_feat$method[i+k+odd_val] = methods_name[k]
     ## plot
     setEPS()
     postscript(paste(paste(paste("./outputs",fname,sep="/"), methods_name[k], sep="_"), "eps", sep = "."))
